@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Password Generator</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<style>
+    body {
+        font-family: 'Lucida Console', monospace;
+        background: radial-gradient(circle, #1F1C3F, #B5E6DB);
+        background-attachment: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        font-family: 'Arial', sans-serif;
+        width: 60%;
+        margin: 20px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2 {
+        font-family: 'Arial', sans-serif;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: #333;
+        text-align: center;
+    }
+
+    form {
+        font-family: 'Arial', sans-serif;
+        width: 90%;
+        background-color: #f2f2f2;
+        border-radius: 8px;
+        color: #333;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .btn {
+        font-family: 'Arial', sans-serif;
+        width: 60%;
+        height: 40px;
+        margin: 10px 0;
+        border-radius: 8px;
+        color: #fff;
+        background-color: #8E92C6;
+        cursor: pointer;
+    }
+
+    .result {
+        font-family: 'Arial', sans-serif;
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border-radius: 8px;
+        color: #333;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    #copy_button {
+        font-family: 'Arial', sans-serif;
+        background-color: #B05B34;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    #copy_button:hover {
+        font-family: 'Arial', sans-serif;
+        background-color: #218838;
+    }
+
+    footer {
+        font-family: 'Arial', sans-serif;
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #f2f2f2;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    footer a {
+        font-family: 'Arial', sans-serif;
+        color: #007BFF;
+        text-decoration: none;
+    }
+
+    footer a:hover {
+        font-family: 'Arial', sans-serif;
+        text-decoration: underline;
+    }
+</style>
+<body>
+    <div class="container">
+        <h1>Random Password Generator</h1>
+        <form method="POST" action="/">
+            <label class="view_pass" for="password_length">Choose Password Length:</label>
+            <input type="range" id="password_length" name="password_length" value="12" min="6" max="32" step="1"><br>
+            Length: <span id="password_length_value">12</span><br>
+            <input class="btn" type="submit" value="Generate">
+        </form>
+        {% if generated_password %}
+        <h2>Generated Password:</h2>
+        <p class="result">{{ generated_password }}
+        <button id="copy_button">Copy</button></p>
+        {% endif %}
+        <script>
+            var passwordLengthSlider = document.getElementById("password_length");
+            var passwordLengthValue = document.getElementById("password_length_value");
+
+            passwordLengthSlider.addEventListener("input", function() {
+                passwordLengthValue.textContent = passwordLengthSlider.value;
+            });
+
+            document.getElementById("copy_button").addEventListener("click", function() {
+                var passwordText = document.querySelector("p").textContent;
+                navigator.clipboard.writeText(passwordText).then(function() {
+                    alert("Password copied to clipboard!");
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
